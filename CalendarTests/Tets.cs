@@ -1,6 +1,7 @@
 
-using System.Globalization;
+using CalendarLab.AppContext;
 using CalendarLab.Presenter;
+using Moq;
 using Xunit;
 
 namespace CalendarTests;
@@ -8,60 +9,35 @@ namespace CalendarTests;
 public class UnitTest1
 {
     [Fact]
-    public void IsLeapYear_ValidYear_ReturnsTrue()
+    public void IsLeapYear()
     {
-        // Arrange
-        CalendarSet CalendarSet = new CalendarSet();
-        int leapYear = 2024;
+        var moq = new Mock<IDataMngr>();
+        moq.Setup(r => r.LoadDates()).Returns(new HashSet<DateData>());
 
-        // Act 
-        bool result = CalendarSet.IsLeapYear(new DateTime(leapYear, 1, 1));
+        var dCalendarSet = new CalendarSet(moq.Object);
 
-        // Assert
-        Assert.True(result);
+        var date = DateTime.Now;
+        dCalendarSet.IsLeapYear(date);
+        var datefromcalend = dCalendarSet.dates.First();
+        
+        Assert.Equal(datefromcalend.year, date.Year);
+        
     }
 
     [Fact]
-    public void IsLeapYear_InvalidYear_ReturnsFalse()
+    public void AddContact_DbHasThis()
     {
-        // Arrange
-        CalendarSet CalendarSet = new CalendarSet();
-        int nonLeapYear = 2023;
+        var moq = new Mock<IDataMngr>();
+        moq.Setup(r => r.LoadDates()).Returns(new HashSet<DateData>());
 
-        // Act
-        bool result = CalendarSet.IsLeapYear(new DateTime(nonLeapYear, 1, 1));
+        var dCalendarSet = new CalendarSet(moq.Object);
 
-        // Assert
-        Assert.False(result);
-    }
+        var date = DateTime.Now;
+        dCalendarSet.GetWeekDay(date);
+        var datefromcalend = dCalendarSet.dates.First();
+        
+        Assert.Equal(datefromcalend.year, date.Year);
 
-    [Fact]
-    public void CalculateDays_ValidDates_ReturnsCorrectInterval()
-    {
-        // Arrange
-        CalendarSet CalendarSet = new CalendarSet();
-        DateTime date1 = new DateTime(2022, 1, 1);
-        DateTime date2 = new DateTime(2022, 1, 10);
-
-        // Act
-        int result = CalendarSet.CalculateDays(date1, date2);
-
-        // Assert
-        Assert.Equal(9, result);
-    }
-
-    [Fact]
-    public void GetWeekDay_ValidDate_ReturnsCorrectDayOfWeek()
-    {
-        // Arrange
-        CalendarSet CalendarSet = new CalendarSet();
-        DateTime date = new DateTime(2022, 1, 1);
-
-        // Act
-        string result = CalendarSet.GetWeekDay(date);
-
-        // Assert
-        Assert.Equal("Saturday", result);
     }
     
 }

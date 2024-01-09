@@ -1,12 +1,14 @@
-﻿namespace CalendarLab.Presenter
+﻿using CalendarLab.AppContext;
+
+namespace CalendarLab.Presenter
 {
     public class CalendarSet : ICalendar
     {
-        private HashSet<DateData> dates;
+        public HashSet<DateData> dates;
 
-        public CalendarSet()
+        public CalendarSet(IDataMngr db)
         {
-            dates = new HashSet<DateData>();
+            dates = db.LoadDates();
         }
 
         public bool IsLeapYear(DateTime date)

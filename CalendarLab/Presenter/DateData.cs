@@ -14,6 +14,14 @@ public class DateData
         this.day = date.Day;
         IsLeapYear = DateTime.IsLeapYear(year);
     }
+    
+    public DateData(string year, string month, string day, bool IsLeapYear)
+    {
+        this.year = Convert.ToInt32(year);
+        this.month = Convert.ToInt32(month);
+        this.day = Convert.ToInt32(day);
+        this.IsLeapYear = IsLeapYear;
+    }
 
     public override string ToString()
     {

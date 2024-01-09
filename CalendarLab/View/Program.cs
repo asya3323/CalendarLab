@@ -1,11 +1,12 @@
 ﻿using System;
+using CalendarLab.AppContext;
 using CalendarLab.Presenter;
 
 class Program
 {
     static void Main()
     {
-        CalendarSet calendarSet = new CalendarSet();
+        CalendarSet calendarSet = new CalendarSet(new DatabaseLoader(new CalendarContext()));
 
         while (true)
         {
@@ -91,3 +92,4 @@ class Program
         }
     }
 }
+

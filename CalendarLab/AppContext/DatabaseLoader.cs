@@ -1,4 +1,5 @@
-﻿using CalendarLab.Presenter;
+﻿using System.Collections.ObjectModel;
+using CalendarLab.Presenter;
 
 namespace CalendarLab.AppContext;
 
@@ -31,6 +32,15 @@ public class DatabaseLoader : IDataMngr
         
         _context.Dates.AddRangeAsync(_contacts.Select(x => ConvertToDTO(x)).ToHashSet());
         _context.SaveChanges();
+    }
+    
+    public async void SaveDates(ObservableCollection<DateDataDto> dates)
+    {
+        _context.Dates.RemoveRange(_context.Dates);
+        await _context.SaveChangesAsync();
+
+        _context.Dates.AddRangeAsync(dates);
+        await _context.SaveChangesAsync();
     }
     
     private DateDataDto ConvertToDTO(DateData t)
